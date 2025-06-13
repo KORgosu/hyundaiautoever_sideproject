@@ -5,28 +5,69 @@
 개발 환경이 이미 설정되어 있고, 필요한 파일들이 올바른 위치에 있다고 가정합니다.
 
 ## 🛠 전제 조건
+```
 다음 프로그램들이 사전에 설치되어 있어야 합니다:
 
-#### Python (3.9 이상 권장)
+- Python (3.9 이상 권장)
+- Node.js & npm (또는 Yarn)
+- MySQL Server (XAMPP, Docker, 또는 직접 설치)
+- MongoDB Server (MongoDB Community Server 등)
+- hyundaiautoever_sideproject 폴더 내 프로젝트 파일
+```
+<br>
 
-#### Node.js & npm (또는 Yarn)
-
-#### MySQL Server (XAMPP, Docker, 또는 직접 설치)
-
-#### MongoDB Server (MongoDB Community Server 등)
-
-#### hyundaiautoever_sideproject 폴더 내 프로젝트 파일
-
-프로젝트 구조 예시:
-
+## 🛠 hyundaiautoever_sideproject 프로젝트 구조
+```
 hyundaiautoever_sideproject/
+├── project_settings/
+│   ├── settings.py           # 프로젝트의 모든 설정 정의 (데이터베이스, 앱, 미들웨어 등)
+│   ├── urls.py               # 프로젝트의 메인 URL 라우팅 정의
+│   ├── wsgi.py               # WSGI 서버 진입점
+│   └── db_routers.py         # 데이터베이스 라우터 (읽기/쓰기 분리 로직)
+├── parts_api/                # Django 앱: 부품 관련 API
+│   ├── __init__.py           # Python 패키지임을 나타냄
+│   ├── admin.py              # Django Admin 사이트 등록
+│   ├── apps.py               # 앱 설정
+│   ├── models.py             # 부품 데이터베이스 모델 정의
+│   ├── views.py              # 부품 관련 HTTP 요청 처리 로직 (REST API 뷰)
+│   ├── urls.py               # 부품 API 앱 내의 URL 패턴 정의
+│   └── tests.py              # 부품 API 테스트 코드
+└── users_api/                # Django 앱: 사용자 관련 API 및 인증
+    ├── __init__.py           # Python 패키지임을 나타냄
+    ├── admin.py              # Django Admin 사이트 등록
+    ├── apps.py               # 앱 설정
+    ├── models.py             # 사용자 데이터베이스 모델 정의
+    ├── views.py              # 사용자 관련 HTTP 요청 처리 로직 (인증, 가입 등)
+    ├── urls.py               # 사용자 API 앱 내의 URL 패턴 정의
+    └── tests.py              # 사용자 API 테스트 코드
+ ```
+### 주요 파일/폴더 및 기능 설명
+```
+``hyundaiautoever_sideproject/`` (프로젝트 루트 디렉토리)
 
-├── manage.py (Django 백엔드 루트)
+``manage.py`` : Django 프로젝트를 관리하는 핵심 스크립트입니다. 서버 실행, 데이터베이스 마이그레이션 등 Django 명령을 수행합니다.
+``venv_project/``: 이 프로젝트의 Python 가상 환경이 위치하는 디렉토리입니다. 프로젝트에 필요한 Python 패키지들이 여기에 격리되어 설치됩니다.
+``hyundai-fe/``: React 프런트엔드 애플리케이션의 루트 디렉토리입니다. 사용자가 웹 브라우저를 통해 상호작용하는 UI/UX 부분이 여기에 구현됩니다. 내부에는 package.json, src/, public/ 등 React 프로젝트 관련 파일들이 있을 것입니다.
+``project_settings/`` (메인 Django 프로젝트 설정 디렉토리)
 
-├── venv_project/ (Python 가상 환경)
+``settings.py`` : 프로젝트의 모든 전역 설정을 정의하는 파일입니다. 설치된 앱 목록, 미들웨어, CORS 설정, 그리고 MySQL/MariaDB 및 MongoDB를 포함한 데이터베이스 연결 정보가 정의되어 있습니다. 또한 Django REST Framework 및 Simple JWT 인증 관련 설정도 포함합니다.
+``urls.py`` : 전체 Django 프로젝트의 URL 라우팅을 담당합니다. 각 개별 앱(parts_api, users_api)의 URL 패턴을 이곳에서 연결합니다.
+``wsgi.py`` : 웹 서버 게이트웨이 인터페이스(WSGI) 파일로, 웹 서버가 Django 애플리케이션을 실행하기 위한 진입점 역할을 합니다.
+``db_routers.py`` : settings.py에 DATABASE_ROUTERS로 설정되어 있는 파일입니다. Django ORM이 데이터베이스 작업을 수행할 때, 읽기 작업은 MongoDB로, 쓰기 작업은 MySQL/MariaDB로 분리하여 라우팅하는 로직이 구현되어 있을 것으로 예상됩니다.
+``parts_api/`` (Django 앱)
 
-└── hyundai-fe/ (React 프런트엔드 루트)
+자동차 부품과 관련된 데이터를 처리하는 API를 구현한 Django 애플리케이션입니다.
 
+models.py: 부품(Parts)에 대한 데이터베이스 스키마(모델)가 정의되어 있습니다.
+views.py: 부품 정보 조회, 추가, 수정, 삭제 등의 RESTful API 로직이 구현되어 있습니다.
+urls.py: parts_api 앱 내의 URL 경로를 정의합니다.
+users_api/ (Django 앱)
+
+사용자 계정 및 인증(로그인, 회원가입 등) 기능을 처리하는 API를 구현한 Django 애플리케이션입니다.
+models.py: 사용자(User) 관련 데이터 모델이 정의되어 있습니다.
+views.py: 사용자 인증, 토큰 발급 및 갱신, 회원가입 등 사용자 관련 RESTful API 로직이 구현되어 있습니다. Simple JWT를 활용한 인증 메커니즘이 포함될 것입니다.
+urls.py: users_api 앱 내의 URL 경로를 정의합니다.
+```
 <br>
 
 ### 1️⃣ 백엔드 구동 (Django + MySQL + MongoDB)
