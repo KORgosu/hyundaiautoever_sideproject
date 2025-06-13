@@ -1,3 +1,14 @@
+## 웹 디자인 예상도
+
+![현대자동차그룹 통합 재고관리 데이터베이스](https://github.com/user-attachments/assets/314a8b02-30db-4d3f-9322-26e162ca7bd3)
+
+<br>
+
+## 초기 아키텍처 구조
+
+![image](https://github.com/user-attachments/assets/afa2992b-92e5-4dea-84b7-0a9a2784b585)
+
+<br>
 
 # hyundaiautoever_sideproject 구동 매뉴얼
 이 문서는 hyundaiautoever_sideproject 프로젝트를 처음부터 다시 실행하기 위한 가이드입니다.
@@ -148,15 +159,3 @@ http://localhost:3000/guest-page
 
 운영 배포 시에는 ``DEBUG=False``, ``CORS`` 설정 등을 점검하세요.
 
-
-<br>
-
-## 웹 디자인 예상도
-
-![현대자동차그룹 통합 재고관리 데이터베이스](https://github.com/user-attachments/assets/314a8b02-30db-4d3f-9322-26e162ca7bd3)
-
-<br>
-
-## 초기 아키텍처 구조
-
-![image](https://github.com/user-attachments/assets/afa2992b-92e5-4dea-84b7-0a9a2784b585)
