@@ -1,4 +1,4 @@
-## 웹 디자인 예상도
+## 웹 디자인
 
 ![현대자동차그룹 통합 재고관리 데이터베이스](https://github.com/user-attachments/assets/314a8b02-30db-4d3f-9322-26e162ca7bd3)
 
@@ -6,7 +6,8 @@
 
 ## 초기 아키텍처 구조
 
-![image](https://github.com/user-attachments/assets/afa2992b-92e5-4dea-84b7-0a9a2784b585)
+![image](https://github.com/user-attachments/assets/8481b890-4ccf-488b-9ef5-c62cfb9183cd)
+
 
 <br>
 
@@ -28,25 +29,27 @@
 
 ``Kafka Connect (CDC 도구 활용)``:
 
-Debezium MySQL Connector: MySQL의 변경 로그(Binlog)를 실시간으로 감지하여, 데이터 변경 이벤트(Create, Update, Delete)를 Kafka 토픽으로 발행합니다.
+``Debezium MySQL Connector`` : MySQL의 변경 로그(Binlog)를 실시간으로 감지하여, 데이터 변경 이벤트(Create, Update, Delete)를 Kafka 토픽으로 발행합니다.
 
-MongoDB Sink Connector: 해당 Kafka 토픽을 구독하여 MySQL에서 발생한 변경 이벤트를 MongoDB로 실시간 동기화합니다. 이를 통해 MySQL과 MongoDB 간의 데이터 일관성을 유지합니다.
+``MongoDB Sink Connector`` : 해당 Kafka 토픽을 구독하여 MySQL에서 발생한 변경 이벤트를 MongoDB로 실시간 동기화합니다. 이를 통해 MySQL과 MongoDB 간의 데이터 일관성을 유지합니다.
 
 Django 백엔드 API 서버 구축:
 
-데이터베이스 연결 설정: settings.py에서 MySQL (쓰기 전용)과 MongoDB (읽기 전용) 연결을 각각 설정하고, 데이터베이스 라우터를 통해 읽기/쓰기 작업을 분리 처리하도록 구성합니다.
+데이터베이스 연결 설정 : settings.py에서 MySQL (쓰기 전용)과 MongoDB (읽기 전용) 연결을 각각 설정하고, 데이터베이스 라우터를 통해 읽기/쓰기 작업을 분리 처리하도록 구성합니다.
 
 사용자 인증 및 권한 관리:
 
-Admin (현대 블루핸즈 지점): 지점명(ID)과 전화번호(PW)를 이용한 인증을 통해 로그인하며, 데이터베이스에 대한 모든 수정, 삭제, 속성 추가 권한을 가집니다. JWT(JSON Web Token) 기반 인증을 사용합니다.
+``Admin`` (현대 블루핸즈 지점): 지점명(ID)과 전화번호(PW)를 이용한 인증을 통해 로그인하며, 데이터베이스에 대한 모든 수정, 삭제, 속성 추가 권한을 가집니다. JWT(JSON Web Token) 기반 인증을 사용합니다.
 
-Guest (일반 클라이언트): 특정 ID(예: 'a', 'b', 'c')로 비밀번호 없이 로그인하며, 부품 정보 읽기만 가능한 제한된 권한을 가집니다.
+``Guest`` (일반 클라이언트): 특정 ID(예: 'a', 'b', 'c')로 비밀번호 없이 로그인하며, 부품 정보 읽기만 가능한 제한된 권한을 가집니다.
 
 API 엔드포인트 구현:
 
-Admin용 API: 부품 추가(POST), 수정(PUT/PATCH), 삭제(DELETE) 등 MySQL에 직접 접근하는 쓰기 작업을 위한 RESTful API를 제공합니다.
+``Admin용 API`` : 부품 추가(POST), 수정(PUT/PATCH), 삭제(DELETE) 등 MySQL에 직접 접근하는 쓰기 작업을 위한 RESTful API를 제공합니다.
 
-공통 조회 API: Admin과 Guest 모두를 위한 부품 정보 조회(GET) API를 구현하며, 이는 MongoDB에서 데이터를 조회하여 빠른 응답을 보장합니다.
+``공통 조회 API`` : Admin과 Guest 모두를 위한 부품 정보 조회(GET) API를 구현하며, 이는 MongoDB에서 데이터를 조회하여 빠른 응답을 보장합니다.
+
+<br>
 
 React 프런트엔드 구축 (hyundai-fe/):
 
